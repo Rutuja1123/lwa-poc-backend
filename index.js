@@ -8,11 +8,11 @@ import cookieParser from 'cookie-parser';
 const salt = 10;
 
 const app = express();
-// app.use((req, res) => {
-//     res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173/");
-//     // res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
-//     // res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-//   })
+app.use((req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://lwa-poc.netlify.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  })
 
 app.use(express.json());
 app.use(cors());

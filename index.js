@@ -133,6 +133,7 @@ app.post('/auth/token', (req, res) => {
     };
     try {
         fetch(url, {method: 'POST', body: JSON.stringify(aclPayload), headers: headers}).then((res) => console.log(res));
+        return res.json({Status: "account linking call success"})
     } catch (error) {
         console.log(error);
     }

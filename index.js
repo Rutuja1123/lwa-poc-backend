@@ -49,7 +49,6 @@ let lwa_access_token;
 const verifyUser = (req, res, next) => {
     console.log('starting verifyUser');
     const token = req.cookies.token;
-    lwa_access_token = req.cookies.lwatoken;
     // const lwatoken = req.cookies.lwatoken;
     // if(!token || !lwatoken) {
     if(!token) {
@@ -144,6 +143,7 @@ app.post('/auth/token', (req, res) => {
     const aclUrl = req.body.aclUrl;
     const url = 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'
     const aclPayload = JSON.stringify(req.body.aclPayload);
+    lwa_access_token = req.body.lwa_access_token;
     const headers = {
         'Authorization': 'Bearer ' + req.body.lwa_access_token,
         'Content-Type': "application/json;charset=UTF-8"
@@ -171,7 +171,7 @@ app.get('/is-account-linked', (req, res) => {
             accountLinkingstatus = res.body.accountLink.status
             enablementstatus = res.body.status
         });
-        // return res.json({ACLStatus: accountLinkingstatus, EnablementStatus: enablementstatus});
+        return res.json({ACLStatus: accountLinkingstatus, EnablementStatus: enablementstatus});
         return res.json({ACLStatus: "LINKED", EnablementStatus: "ENABLED"});
     } catch (error) {
         console.log(error);

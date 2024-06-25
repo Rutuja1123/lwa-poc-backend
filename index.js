@@ -44,7 +44,7 @@ const db = mysql.createConnection({
     password: 'kMd5xyYQc8',
     database: 'sql12716011'
 })
-
+const amznEmail = "";
 const verifyUser = (req, res, next) => {
     console.log('starting verifyUser');
     const token = req.cookies.token;
@@ -52,7 +52,10 @@ const verifyUser = (req, res, next) => {
     if(!token || !lwatoken) {
         return res.json({ Error: 'Token missing' });
     } else {
-        if (lwatoken) {next()}
+        if (lwatoken) {
+            req.email = amznEmail;
+            next();
+        }
         else {
         jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
             if(err) {
@@ -78,6 +81,7 @@ app.post('/amazon/profile', (req, res) => {
     //     console.log("delete");
     //     return res.json({Status: "success"});
     // })
+    amznEmail = req.body.PrimaryEmail;
     console.log("updating database-1");
     const upsql = "SELECT * FROM login WHERE email = ?";
     db.query(upsql, [req.body.PrimaryEmail], (err, result) => {

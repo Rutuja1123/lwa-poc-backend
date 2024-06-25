@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use(cors({
     // origin: ['https://Rutuja1123.github.io/lwa-poc'],
-    origin: ['https://lwa-poc.netlify.app/login', 'https://na.account.amazon.com', 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'],
+    origin: ['https://lwa-poc.netlify.app/login', 'http://localhost:3000', 'https://na.account.amazon.com', 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'],
     methods: ['GET', 'POST'],
     credentials: true
 }));

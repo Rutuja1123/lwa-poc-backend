@@ -46,6 +46,7 @@ const db = mysql.createConnection({
 })
 
 const verifyUser = (req, res, next) => {
+    console.log('starting verifyUser')
     const token = req.cookies.token;
     if(!token) {
         return res.json({ Error: 'Token missing' });

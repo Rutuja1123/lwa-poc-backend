@@ -48,15 +48,16 @@ const amznEmail = "";
 const verifyUser = (req, res, next) => {
     console.log('starting verifyUser');
     const token = req.cookies.token;
-    const lwatoken = req.cookies.lwatoken;
-    if(!token || !lwatoken) {
+    // const lwatoken = req.cookies.lwatoken;
+    // if(!token || !lwatoken) {
+    if(!token) {
         return res.json({ Error: 'Token missing' });
     } else {
-        if (lwatoken) {
-            req.email = amznEmail;
-            next();
-        }
-        else {
+        // if (lwatoken) {
+        //     req.email = amznEmail;
+        //     next();
+        // }
+        // else {
         jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
             if(err) {
                 return res.json({ Error: 'Token Error' });
@@ -64,7 +65,8 @@ const verifyUser = (req, res, next) => {
                 req.email = decoded.email;
                 next();
             }
-        })}
+        })
+    // }
     }
 }
 

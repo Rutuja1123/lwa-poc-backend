@@ -16,12 +16,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-// app.use(cors({
-//     // origin: ['https://Rutuja1123.github.io/lwa-poc'],
-//     origin: ['https://lwa-poc.netlify.app/login'],
-//     methods: ['GET', 'POST'],
-//     credentials: true
-// }));
+app.use(cors({
+    // origin: ['https://Rutuja1123.github.io/lwa-poc'],
+    origin: ['https://lwa-poc.netlify.app/login', 'https://na.account.amazon.com', 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'],
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
 // app.use(cors({
 //     // origin: ['http://54.227.1.200/'],
 //     origin: ['https://na.account.amazon.com'],
@@ -40,9 +40,9 @@ app.use(cookieParser());
 
 const db = mysql.createConnection({
     host: 'sql12.freesqldatabase.com',
-    user: 'sql12714391',
-    password: 'QCJ6tn4Rrp',
-    database: 'sql12714391'
+    user: 'sql12716011',
+    password: 'kMd5xyYQc8',
+    database: 'sql12716011'
 })
 
 const verifyUser = (req, res, next) => {
@@ -105,6 +105,7 @@ app.post('/amazon/profile', (req, res) => {
 
 app.post('/register', (req, res) => {
     const sql = "INSERT INTO login (`firstName`, `lastName`, `email`, `password`) VALUES (?)";
+    console.log("successfully registerun");
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
         if (err) return res.json(err);
         const values = [

@@ -166,7 +166,7 @@ app.get('/is-account-linked', (req, res) => {
     };
     let data;
     try {
-        fetch(url, {method: 'POST', body: JSON.stringify(aclPayload), headers: headers}).then((res) => data = res.json);
+        fetch(url, {method: 'GET', headers: headers}).then((res) => data = res.json);
         return res.json({Status: "account linking call success", data: data});
     } catch (error) {
         console.log(error);

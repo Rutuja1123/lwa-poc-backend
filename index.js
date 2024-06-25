@@ -16,12 +16,12 @@ app.use((req, res) => {
 
 app.use(express.json());
 app.use(cors());
-app.use(cors({
-    // origin: ['https://Rutuja1123.github.io/lwa-poc'],
-    origin: ['https://lwa-poc.netlify.app/login'],
-    methods: ['GET', 'POST'],
-    credentials: true
-}));
+// app.use(cors({
+//     // origin: ['https://Rutuja1123.github.io/lwa-poc'],
+//     origin: ['https://lwa-poc.netlify.app/login'],
+//     methods: ['GET', 'POST'],
+//     credentials: true
+// }));
 // app.use(cors({
 //     // origin: ['http://54.227.1.200/'],
 //     origin: ['https://na.account.amazon.com'],

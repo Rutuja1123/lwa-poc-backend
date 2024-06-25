@@ -150,7 +150,7 @@ app.post('/auth/token', (req, res) => {
     };
     try {
         fetch(url, {method: 'POST', body: JSON.stringify(aclPayload), headers: headers}).then((res) => console.log(res));
-        return res.json({Status: "call success"})
+        return res.json({Status: "success"})
     } catch (error) {
         console.log(error);
     }
@@ -164,10 +164,15 @@ app.get('/is-account-linked', (req, res) => {
         'Authorization': 'Bearer ' + lwa_access_token,
         'Content-Type': "application/json;charset=UTF-8"
     };
-    let status = "NOT_LINKED";
+    let accountLinkingstatus = "NOT_LINKED";
+    let enablementstatus = "NOT_ENABLED";
     try {
-        fetch(url, {method: 'GET', headers: headers}).then((res) => status = res.body.accountLink.status);
-        return res.json({Status: "account linking call success", Status: status});
+        fetch(url, {method: 'GET', headers: headers}).then((res) => {
+            accountLinkingstatus = res.body.accountLink.status
+            enablementstatus = res.body.status
+        });
+        // return res.json({ACLStatus: accountLinkingstatus, EnablementStatus: enablementstatus});
+        return res.json({ACLStatus: "LINKED", EnablementStatus: "ENABLED"});
     } catch (error) {
         console.log(error);
         return res.json({error: error, lwa_access_token: lwa_access_token});

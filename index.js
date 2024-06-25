@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use(cors({
     // origin: ['https://Rutuja1123.github.io/lwa-poc'],
-    origin: ['https://lwa-poc.netlify.app/login', 'http://localhost:3000', 'https://na.account.amazon.com', 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'],
+    origin: ['https://lwa-poc.netlify.app/login'],
     methods: ['GET', 'POST'],
     credentials: true
 }));
@@ -171,8 +171,7 @@ app.get('/is-account-linked', (req, res) => {
             accountLinkingstatus = res.body.accountLink.status
             enablementstatus = res.body.status
         });
-        // return res.json({ACLStatus: accountLinkingstatus, EnablementStatus: enablementstatus});
-        return res.json({ACLStatus: "LINKED", EnablementStatus: "ENABLED"});
+        return res.json({ACLStatus: accountLinkingstatus, EnablementStatus: enablementstatus});
     } catch (error) {
         console.log(error);
         return res.json({error: error, lwa_access_token: lwa_access_token});

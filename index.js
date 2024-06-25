@@ -72,7 +72,7 @@ app.post('/amazon/profile', (req, res) => {
     //     console.log("delete");
     //     return res.json({Status: "success"});
     // })
-    console.log("updating database");
+    console.log("updating database-1");
     const upsql = "SELECT * FROM login WHERE email = ?";
     db.query(upsql, [req.body.PrimaryEmail], (err, result) => {
         if(err) return res.json(err);

@@ -172,6 +172,7 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', (req, res) => {
     res.clearCookie('token');
+    res.clearCookie('lwatoken');
     return res.json({Status: "success"});
 })
 

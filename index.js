@@ -46,11 +46,14 @@ const db = mysql.createConnection({
 })
 
 const verifyUser = (req, res, next) => {
-    console.log('starting verifyUser')
+    console.log('starting verifyUser');
     const token = req.cookies.token;
-    if(!token) {
+    const lwatoken = req.cookies.lwatoken;
+    if(!token || !lwatoken) {
         return res.json({ Error: 'Token missing' });
     } else {
+        if (lwatoken) {next()}
+        else {
         jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
             if(err) {
                 return res.json({ Error: 'Token Error' });
@@ -58,15 +61,17 @@ const verifyUser = (req, res, next) => {
                 req.email = decoded.email;
                 next();
             }
-        })
+        })}
     }
 }
 
 app.get('/', verifyUser, (req, res) => {
+    console.log('calling verifyUser');
     return res.json({Status: "success", email: req.email});
 })
 
 app.post('/amazon/profile', (req, res) => {
+    console.log('starting amazon profile');
     // const delsql = "DELETE FROM login WHERE email = ?";
     // db.query(delsql, ["sma-team@amazon.com"], (err, result) => {
     //     if(err) return res.json(err);
@@ -105,6 +110,7 @@ app.post('/amazon/profile', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
+    console.log('starting registeration');
     const sql = "INSERT INTO login (`firstName`, `lastName`, `email`, `password`) VALUES (?)";
     console.log("successfully registerun");
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
@@ -125,6 +131,7 @@ app.post('/register', (req, res) => {
 })
 
 app.post('/auth/token', (req, res) => {
+    console.log('starting account linking');
     console.log(req.body);
     const aclUrl = req.body.aclUrl;
     const url = 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'
@@ -144,6 +151,7 @@ app.post('/auth/token', (req, res) => {
 
 // abc@xyz.com
 app.post('/login', (req, res) => {
+    console.log('starting login');
     // res.setHeader("Access-Control-Allow-Origin", "*");
     // res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
     // res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -171,6 +179,7 @@ app.post('/login', (req, res) => {
 
 
 app.get('/logout', (req, res) => {
+    console.log('starting logout');
     res.clearCookie('token');
     res.clearCookie('lwatoken');
     return res.json({Status: "success"});

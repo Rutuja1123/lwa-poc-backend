@@ -44,10 +44,12 @@ const db = mysql.createConnection({
     password: 'kMd5xyYQc8',
     database: 'sql12716011'
 })
-const amznEmail = "";
+let amznEmail = "";
+let lwa_access_token;
 const verifyUser = (req, res, next) => {
     console.log('starting verifyUser');
     const token = req.cookies.token;
+    lwa_access_token = req.cookies.lwatoken;
     // const lwatoken = req.cookies.lwatoken;
     // if(!token || !lwatoken) {
     if(!token) {
@@ -153,6 +155,24 @@ app.post('/auth/token', (req, res) => {
         console.log(error);
     }
     
+})
+
+app.get('/is-account-linked', (req, res) => {
+    console.log("getting account linking status");
+    const url = 'https://api.amazonalexa.com/v1/users/~current/skills/amzn1.ask.skill.4372204c-a922-4cd9-a20c-1dd6ad55c8f6/enablement'
+    const headers = {
+        'Authorization': 'Bearer ' + lwa_access_token,
+        'Content-Type': "application/json;charset=UTF-8"
+    };
+    let data;
+    try {
+        fetch(url, {method: 'POST', body: JSON.stringify(aclPayload), headers: headers}).then((res) => data = res.json);
+        return res.json({Status: "account linking call success", data: data});
+    } catch (error) {
+        console.log(error);
+        return res.json({error: error, lwa_access_token: lwa_access_token});
+    }
+
 })
 
 // abc@xyz.com

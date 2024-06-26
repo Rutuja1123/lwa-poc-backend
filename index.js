@@ -8,57 +8,36 @@ import cookieParser from 'cookie-parser';
 const salt = 10;
 
 const app = express();
-// app.use((req, res) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'https://lwa-poc.netlify.app');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//   })
+
 
 app.use(express.json());
 app.use(cors());
 app.use(cors({
-    // origin: ['https://Rutuja1123.github.io/lwa-poc'],
-    origin: ['https://lwa-poc.netlify.app/login'],
+    origin: ['https://example.website.com/login'], //your websites login page
     methods: ['GET', 'POST'],
     credentials: true
 }));
-// app.use(cors({
-//     // origin: ['http://54.227.1.200/'],
-//     origin: ['https://na.account.amazon.com'],
-//     methods: ['GET', 'POST'],
-//     credentials: true
-// }));
+
 app.use(cookieParser());
   
 
-// const db = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'lwa-poc'
-// })
-
+// use your sql database credentials
 const db = mysql.createConnection({
-    host: 'sql12.freesqldatabase.com',
-    user: 'sql12716011',
-    password: 'kMd5xyYQc8',
-    database: 'sql12716011'
+    host: 'database-host',
+    user: 'database-user',
+    password: 'database-password',
+    database: 'database-name'
 })
+
 let amznEmail = "";
 let lwa_access_token;
 const verifyUser = (req, res, next) => {
     console.log('starting verifyUser');
     const token = req.cookies.token;
-    // const lwatoken = req.cookies.lwatoken;
-    // if(!token || !lwatoken) {
     if(!token) {
         return res.json({ Error: 'Token missing' });
     } else {
-        // if (lwatoken) {
-        //     req.email = amznEmail;
-        //     next();
-        // }
-        // else {
+        
         jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
             if(err) {
                 return res.json({ Error: 'Token Error' });
@@ -78,12 +57,7 @@ app.get('/', verifyUser, (req, res) => {
 
 app.post('/amazon/profile', (req, res) => {
     console.log('starting amazon profile');
-    // const delsql = "DELETE FROM login WHERE email = ?";
-    // db.query(delsql, ["sma-team@amazon.com"], (err, result) => {
-    //     if(err) return res.json(err);
-    //     console.log("delete");
-    //     return res.json({Status: "success"});
-    // })
+    
     amznEmail = req.body.PrimaryEmail;
     console.log("updating database-1");
     const upsql = "SELECT * FROM login WHERE email = ?";
@@ -182,9 +156,7 @@ app.get('/is-account-linked', (req, res) => {
 // abc@xyz.com
 app.post('/login', (req, res) => {
     console.log('starting login');
-    // res.setHeader("Access-Control-Allow-Origin", "*");
-    // res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
-    // res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
     const sql = "SELECT * FROM login WHERE email = ?";
     console.log(sql);
     db.query(sql, [req.body.email], (err, result) => {
